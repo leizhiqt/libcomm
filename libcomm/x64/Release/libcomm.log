@@ -1,0 +1,43 @@
+﻿  bclog.c
+  bctime.c
+  conf.c
+e:\libcomm\libcomm\libcomm\conf.c(31): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  csocket.c
+e:\libcomm\libcomm\libcomm\csocket.c(98): warning C4013: “close”未定义；假设外部返回 int
+e:\libcomm\libcomm\libcomm\csocket.c(106): warning C4013: “str_tohex”未定义；假设外部返回 int
+  libcom.c
+e:\libcomm\libcomm\libcomm\libcom.c(16): warning C4101: “sendBuf”: 未引用的局部变量
+e:\libcomm\libcomm\libcomm\libcom.c(83): warning C4047: “函数”:“void *(__cdecl *)(void *)”与“void (__cdecl *)(void *)”的间接级别不同
+e:\libcomm\libcomm\libcomm\libcom.c(83): warning C4022: “thpool_add_work”: 指针与实参 2 不匹配
+  linklist.c
+  sfline.c
+e:\libcomm\libcomm\libcomm\sfline.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+e:\libcomm\libcomm\libcomm\sfline.c(74): warning C4013: “open”未定义；假设外部返回 int
+e:\libcomm\libcomm\libcomm\sfline.c(81): warning C4013: “write”未定义；假设外部返回 int
+e:\libcomm\libcomm\libcomm\sfline.c(85): warning C4013: “close”未定义；假设外部返回 int
+e:\libcomm\libcomm\libcomm\sfline.c(190): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  taskdata.c
+  thpool.c
+e:\libcomm\libcomm\libcomm\thpool.c(142): warning C4047: “return”:“HANDLE”与“int”的间接级别不同
+e:\libcomm\libcomm\libcomm\thpool.c(185): warning C4047: “=”:“HANDLE”与“uintptr_t”的间接级别不同
+e:\libcomm\libcomm\libcomm\thpool.c(243): warning C4047: “=”:“HANDLE”与“uintptr_t”的间接级别不同
+e:\libcomm\libcomm\libcomm\thpool.c(257): warning C4047: “初始化”:“unsigned long”与“HANDLE”的间接级别不同
+  websocket.c
+e:\libcomm\libcomm\libcomm\base64.h(82): warning C4244: “return”: 从“__int64”转换到“char”，可能丢失数据
+e:\libcomm\libcomm\libcomm\sha1.h(180): warning C4267: “函数”: 从“size_t”转换到“unsigned int”，可能丢失数据
+e:\libcomm\libcomm\libcomm\sha1.h(189): warning C4047: “函数”:“const size_t”与“char [21]”的间接级别不同
+e:\libcomm\libcomm\libcomm\sha1.h(189): warning C4024: “sprintf_s”: 形参和实参 2 的类型不同
+e:\libcomm\libcomm\libcomm\sha1.h(189): warning C4047: “函数”:“const char *const ”与“unsigned int”的间接级别不同
+e:\libcomm\libcomm\libcomm\sha1.h(189): warning C4024: “sprintf_s”: 形参和实参 3 的类型不同
+e:\libcomm\libcomm\libcomm\websocket.c(80): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+e:\libcomm\libcomm\libcomm\websocket.c(121): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+e:\libcomm\libcomm\libcomm\websocket.c(131): warning C4267: “函数”: 从“size_t”转换到“int”，可能丢失数据
+e:\libcomm\libcomm\libcomm\websocket.c(99): warning C4101: “temp”: 未引用的局部变量
+e:\libcomm\libcomm\libcomm\websocket.c(224): warning C4018: “<”: 有符号/无符号不匹配
+e:\libcomm\libcomm\libcomm\websocket.c(158): warning C4101: “data”: 未引用的局部变量
+e:\libcomm\libcomm\libcomm\websocket.c(349): warning C4028: 形参 1 与声明不同
+e:\libcomm\libcomm\libcomm\websocket.c(455): warning C4013: “_access”未定义；假设外部返回 int
+  bclog.obj : 找到 MSIL .netmodule 或使用 /GL 编译的模块；正在使用 /LTCG 重新启动链接；将 /LTCG 添加到链接命令行以改进链接器性能
+  正在生成代码
+  已完成代码的生成
+  libcomm.vcxproj -> E:\libcomm\libcomm\x64\Release\libcomm.exe
