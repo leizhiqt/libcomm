@@ -18,9 +18,14 @@ void printbytes(const char * bytes, const int n);
 //}
 //#endif
 
-#define LOG_INFO(format,...) log_printfs(__FILE__,__LINE__,format,__VA_ARGS__)
-#define LOG_WARN(format,...) log_printfs(__FILE__,__LINE__,format,__VA_ARGS__)
-#define LOG_EROR(format,...) log_printfs(__FILE__,__LINE__,format,__VA_ARGS__)
+#define LOG_INFO(format,...) log_printfs(__FILE__,__LINE__,format,##__VA_ARGS__) 
+#define LOG_WARN(format,...) log_printfs(__FILE__,__LINE__,format,##__VA_ARGS__) 
+#define LOG_EROR(format,...) log_printfs(__FILE__,__LINE__,format,##__VA_ARGS__) 
+
+#ifdef __linux__
+//#define fopen_s fopen
+
+#endif
 
 #endif
 //demo

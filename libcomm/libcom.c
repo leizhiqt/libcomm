@@ -2,14 +2,32 @@
 //
 
 #include "stdio.h"
-#include "Windows.h"
 #include "bclog.h"
 #include "thpool.h"
 #include "bctime.h"
+#include "stdlib.h"
+
+#ifdef __ANDROID__
+#elif __linux__
+#include "sys/socket.h"
+#include "unistd.h"
+#include "stdlib.h"
+#include "errno.h"
+#include <sys/types.h>
+#include "signal.h"
+#include "bclog.h"
+#include "unistd.h"
+
+#elif _WIN32
+#define WIN32_LEAN_AND_MEAN // 排除一些不太常用的 API, 加速生成过程
+#include "Windows.h"
+//#include "process.h"
+
+#endif
 
 //static uint forever;
 
-thpool_t thpool;
+
 
 void *console()
 {
@@ -34,40 +52,48 @@ void *console()
 			printf("console$>%ld bytes\n", (wp - bbuf));
 		}
 		*/
-		Sleep(50);
+		//Sleep(50);
 	}
 	LOG_INFO("console$>bye!\n");
-	Sleep(2);
+	//Sleep(2);
 	//pthread_exit(NULL);
 }
 
 void th_task(void *argc)
 {
-	CPUTIME_TEST_BEGIN
+	//CPUTIME_TEST_BEGIN
 
-		int task_id = *(int *)argc;
+	int task_id = *(int *)argc;
 	LOG_INFO("th_task begin");
 	for (int i = 0; i < 15; i++) {
 		LOG_INFO("th_task %d", task_id);
-		Sleep(1000);
+		//
+#ifdef __linux__
+	usleep(50);
+#endif
+
+#ifdef _WIN32
+	Sleep(1000);
+#endif
 	}
 	LOG_INFO("th_task end");
-	CPUTIME_TEST_PRINT
-		//pthread_exit(NULL);
+	//CPUTIME_TEST_PRINT
+	//pthread_exit(NULL);
 }
 
 int main()
 {
 	log_initialize("libcom.txt", 1);
-	//LOG_INFO("abcd");
-	//LOG_INFO("abcd");
-	//LOG_INFO("abcd");
-	//LOG_INFO("abcd");
+	LOG_INFO("abcd");
+	LOG_INFO("abcd");
+	LOG_INFO("abcd");
+	LOG_INFO("abcd");
 
 
 	//线程池
+	thpool_t thpool;
 	thpool_init(&thpool, 5, 2);
-	Sleep(50);
+	//Sleep(50);
 
 	//启动测试用例
 	//test_start(&client);
@@ -84,7 +110,13 @@ int main()
 		{
 			LOG_INFO("thpool full");
 		}
-		Sleep(1);
+		#ifdef __linux__
+	usleep(50);
+#endif
+
+#ifdef _WIN32
+	Sleep(1000);
+#endif
 	}
 
 	LOG_INFO("start finsh\n");

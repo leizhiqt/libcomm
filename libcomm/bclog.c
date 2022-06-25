@@ -6,7 +6,7 @@
 #include "string.h"
 #include "stdarg.h"
 #include "fcntl.h"
-#include "sys/types.h"
+//#include "sys/types.h"
 
 #elif _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -35,20 +35,38 @@ int log_initialize(const char *log_file, int level)
 {
 	int ret = 0;
 
+#ifdef __linux__
+	if (log_fp != NULL && (ret = access(_log_file, 2)) != -1) {
+		printf("File ACCESS.C has write permission\n");
+		return 1;
+	}
+#endif
+
+#ifdef _WIN32
 	if (log_fp != NULL && (ret = _access(_log_file, 2)) != -1) {
 		printf("File ACCESS.C has write permission\n");
 		return 1;
 	}
+#endif
 
 	memset(_log_file, '\0', sizeof(_log_file));
 	snprintf(_log_file, sizeof(_log_file), "%s", log_file);
 
 	_level = level;
+	#ifdef _WIN32
 	if ((ret = fopen_s(&log_fp, _log_file, "w+")) != 0)
 	{
 		printf("The file %s can not be opened.\n", "student.txt");
 		return -1;
 	}
+	#endif
+	#ifdef __linux__
+	if ((log_fp = fopen(_log_file, "w+")) != 0)
+	{
+		printf("The file %s can not be opened.\n", "student.txt");
+		return -1;
+	}
+	#endif
 	//printf("+++++++++++++\n");
 	if (setvbuf(log_fp, NULL, _IOLBF, 1024) != 0) /*为流指定特殊的缓冲区*/
 	{
@@ -66,11 +84,20 @@ int log_initialize(const char *log_file, int level)
 int log_release()
 {
 	int ret = 0;
+#ifdef __linux__
+	if (log_fp != NULL && (ret = access(_log_file, 2)) != -1) {
+		LOG_INFO("%s","关闭成功");
+		fclose(log_fp);
+	}
+#endif
 
+#ifdef _WIN32
 	if (log_fp != NULL && (ret = _access(_log_file, 2)) != -1) {
 		LOG_INFO("关闭成功");
 		fclose(log_fp);
 	}
+#endif
+
 
 	return 0;
 }

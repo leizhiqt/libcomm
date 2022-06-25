@@ -186,8 +186,16 @@ char * sha1_hash(const char *source) {// Main
 	else {
 		buf = (char *)malloc(128);
 		memset(buf, 0, sizeof(buf));
+		#ifdef __linux__
+		sprintf(buf, "%08X%08X%08X%08X%08X", sha.Message_Digest[0], sha.Message_Digest[1],
+			sha.Message_Digest[2], sha.Message_Digest[3], sha.Message_Digest[4]);
+		#endif
+		#ifdef _WIN32
 		sprintf_s(buf, "%08X%08X%08X%08X%08X", sha.Message_Digest[0], sha.Message_Digest[1],
 			sha.Message_Digest[2], sha.Message_Digest[3], sha.Message_Digest[4]);
+		#endif
+		
+		
 		return buf;
 	}
 }

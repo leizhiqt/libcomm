@@ -9,12 +9,17 @@
 #elif __linux__
 #include "stdio.h"
 #include "stdlib.h"
+#include "pthread.h"
 #include "string.h"
 #include "unistd.h"
-#include "sys/socket.h"
+
+
 #include "netdb.h"
+#include "sys/socket.h"
 #include "netinet/in.h"
 #include "arpa/inet.h"
+#include "netinet/in.h"
+
 
 #elif _WIN32
 #define WIN32_LEAN_AND_MEAN

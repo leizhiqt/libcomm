@@ -5,6 +5,7 @@
 #elif __linux__
 #include "stdlib.h"
 #include "sys/time.h"
+#include "time.h"
 
 #elif _WIN32
 //#define WIN32_LEAN_AND_MEAN
@@ -31,7 +32,15 @@ void sys_ms(char *ms);
 
 void getNowS(char *nowS, size_t size);
 
-#define __CPUTIME_TEST__
+
+
+#ifdef __linux__
+#define CPUTIME_TEST_BEGIN {}
+#define CPUTIME_TEST_PRINT {}
+
+#endif
+
+#ifdef _WIN32
 
 #ifdef __CPUTIME_TEST__
 clock_t start, stop;
@@ -48,5 +57,8 @@ LOG_INFO("消耗CPU:%d", duration);
 
 #endif
 
+
+
+#endif
 
 #endif

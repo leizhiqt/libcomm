@@ -9,11 +9,14 @@
 
 #include "stdlib.h"
 #include "errno.h"
+#include <sys/types.h>
 #include "signal.h"
 #include "bclog.h"
-
+#include "spawn.h"
 
 #ifdef __linux__
+#include "unistd.h"
+
 static	sigset_t signal_mask;
 #endif
 
@@ -27,7 +30,7 @@ static void th_nosing()
 
 	int rc = pthread_sigmask(SIG_BLOCK, &signal_mask, NULL);//NULL屏蔽信号处理函数
 	if (rc != 0) {
-		printfs("%s\t%d\t[DEBUG]:thpool_add_work new:block sigpipe error", __FILE__, __LINE__);
+		LOG_INFO("%s\t%d\t[DEBUG]:thpool_add_work new:block sigpipe error", __FILE__, __LINE__);
 	}
 #endif
 }

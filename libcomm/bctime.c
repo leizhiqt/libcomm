@@ -4,7 +4,7 @@
 //时间
 
 //秒
-//struct tm *tm_now;
+struct tm *tm_now;
 
 //毫秒 微秒
 struct timeval tv;
@@ -16,16 +16,43 @@ char datetime[20];
 //按照不同的方式格式化当前times
 void t_formats(char *nowS, size_t s_len, const char*fmats)
 {
-	//time_t now;
-	//time(&now);
-	//tm_now = localtime(&now);
-	//strftime(s, 20, fmats, tm_now);
 
+#ifdef __ANDROID__
+#elif __linux__
+	time_t now;
+	time(&now);
+	tm_now = localtime(&now);
+	strftime(nowS, 20, fmats, tm_now);
+
+#elif _WIN32
 	time_t timep;
 	time(&timep);
 	struct tm nowTime;
 	localtime_s(&nowTime, &timep);
 	strftime(nowS, s_len, fmats, &nowTime);
+
+#endif
+
+}
+
+void getNowS(char *nowS, size_t size) {
+#ifdef __ANDROID__
+#elif __linux__
+	time_t now;
+	time(&now);
+	struct tm *nowTime;
+	nowTime=localtime(&now);
+	strftime(nowS, size, "%Y-%m-%d %H:%M:%S", nowTime);
+
+#elif _WIN32
+	time_t timep;
+	time(&timep);
+	struct tm nowTime;
+	localtime_s(&nowTime, &timep);
+	strftime(nowS, size, "%Y-%m-%d %H:%M:%S", &nowTime);
+
+#endif
+
 }
 
 //获取当前时间
@@ -48,8 +75,6 @@ void t_stime(char *times)
 //执行时间
 int disTime()
 {
-
-
 #ifdef __linux__
 	//执行一次处理的时间
 	gettimeofday(&tv, NULL);
@@ -61,7 +86,7 @@ int disTime()
 	//秒 微秒
 	double second = (tv.tv_sec - tv_prv.tv_sec) + (double)(tv.tv_usec - tv_prv.tv_usec) / 1000000;//秒
 
-	//printfs("%s\t%d\t[DEBUG]:Seconds:%ld Microseconds:%ld Seconds:%ld Microseconds:%ld  耗时秒:%lf",__FILE__,__LINE__,tv.tv_sec,tv.tv_usec,tv_prv.tv_sec,tv_prv.tv_usec,second);
+	printf("Seconds:%ld Microseconds:%ld Seconds:%ld Microseconds:%ld  耗时秒:%lf",tv.tv_sec,tv.tv_usec,tv_prv.tv_sec,tv_prv.tv_usec,second);
 
 	tv_prv = tv;
 #endif
@@ -88,7 +113,7 @@ void sys_ms(char *ms)
 #ifdef __linux__
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	snprintf(ms, 30, "%d%ld", tv.tv_sec, tv.tv_usec);
+	snprintf(ms, 30, "%ld%ld", tv.tv_sec, tv.tv_usec);
 #endif
 
 #ifdef _WIN32
@@ -96,12 +121,4 @@ void sys_ms(char *ms)
 #endif
 
 
-}
-
-void getNowS(char *nowS, size_t size) {
-	time_t timep;
-	time(&timep);
-	struct tm nowTime;
-	localtime_s(&nowTime, &timep);
-	strftime(nowS, size, "%Y-%m-%d %H:%M:%S", &nowTime);
 }

@@ -112,8 +112,13 @@ char* computeAcceptKey(const char * buf)
 	{
 		return NULL;
 	}
-
+#ifdef __ANDROID__
+#elif __linux__
+	strcat(clientKey, GUID);
+#elif _WIN32
 	strcat_s(clientKey, strlen(clientKey), GUID);
+#endif
+
 
 	sha1DataTemp = sha1_hash(clientKey);
 	free(clientKey);
@@ -143,12 +148,24 @@ void shakeHand(const char *serverKey, char *responseHeader)
 
 	memset(responseHeader, '\0', RESPONSE_HEADER_LEN_MAX);
 
+#ifdef __ANDROID__
+#elif __linux__
+	strcat(responseHeader, "HTTP/1.1 101 Switching Protocols\r\n");
+	strcat(responseHeader, "Upgrade: websocket\r\n");
+	strcat(responseHeader, "Connection: Upgrade\r\n");
+	strcat(responseHeader, "Sec-WebSocket-Accept: ");
+	strcat(responseHeader, serverKey);
+	strcat(responseHeader, "\r\n\r\n");
+#elif _WIN32
 	strcat_s(responseHeader, strlen(responseHeader), "HTTP/1.1 101 Switching Protocols\r\n");
 	strcat_s(responseHeader, strlen(responseHeader), "Upgrade: websocket\r\n");
 	strcat_s(responseHeader, strlen(responseHeader), "Connection: Upgrade\r\n");
 	strcat_s(responseHeader, strlen(responseHeader), "Sec-WebSocket-Accept: ");
 	strcat_s(responseHeader, strlen(responseHeader), serverKey);
 	strcat_s(responseHeader, strlen(responseHeader), "\r\n\r\n");
+#endif
+
+
 	//printfs("%s\t%d\t[DEBUG]:Response Header:%s",__FILE__,__LINE__,responseHeader);
 }
 

@@ -3,8 +3,6 @@
 
 #ifdef __ANDROID__
 #elif __linux__
-#include "sys/socket.h"
-#include "unistd.h"
 
 #elif _WIN32
 #define WIN32_LEAN_AND_MEAN // 排除一些不太常用的 API, 加速生成过程
@@ -41,7 +39,7 @@ int client_connect(client_t* client)
 
 	client->serv_addr.sin_family = AF_INET;
 	client->serv_addr.sin_port = htons(client->port);
-	client->serv_addr.sin_addr = *((struct in_addr *)client->host->h_addr);
+	//client->serv_addr.sin_addr = *((struct in_addr *)client->host->h_addr);
 
 	bzero(&(client->serv_addr.sin_zero), 8);
 
@@ -49,7 +47,7 @@ int client_connect(client_t* client)
 		perror("connect error");
 		return -1;
 	}
-	LOG_INFO("connect to:%s port:%d", inet_ntop(client->serv_addr.sin_addr), ntohs(client->serv_addr.sin_port));
+	//LOG_INFO("connect to:%s port:%d", inet_ntop(client->serv_addr.sin_addr), ntohs(client->serv_addr.sin_port));
 #endif
 	return 0;
 }
@@ -127,7 +125,7 @@ int short_send(client_t* client)
 
 	client->serv_addr.sin_family = AF_INET;
 	client->serv_addr.sin_port = htons(client->port);
-	client->serv_addr.sin_addr = *((struct in_addr *)client->host->h_addr);
+	//client->serv_addr.sin_addr = *((struct in_addr *)client->host->h_addr);
 
 	bzero(&(client->serv_addr.sin_zero), 8);
 

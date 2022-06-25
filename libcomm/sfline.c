@@ -30,18 +30,18 @@ int exist_line(const char *file_name, const char *buf)
 {
 	int ret = -1;
 #ifdef __linux__
-	FILE * fstream;
+	FILE * fp;
 	char * line = NULL;
 	size_t len = 0;
 	size_t read;
 
-	if ((ret = fopen_s(&fstream, file_name, "r")) != 0)
+	if ((fp = fopen(file_name, "r")) != 0)
 	{
 		printf("The file %s can not be opened.\n", "student.txt");
 		return -1;
 	}
 
-	while ((read = getline(&line, &len, fstream)) != -1) {
+	while ((read = getline(&line, &len, fp)) != -1) {
 
 		if (!(read > 1)) continue;
 
@@ -56,7 +56,7 @@ int exist_line(const char *file_name, const char *buf)
 	}
 
 	if (line) free(line);
-	fclose(fstream);
+	fclose(fp);
 #endif
 	return ret;
 }
@@ -193,7 +193,12 @@ int str_tostr(char* s, const char* hexs)
 	//unsigned int ascii = 65535;
 	for (i = 0; i < maxs / 2; i++)
 	{
+		#ifdef __linux__
+		RET = sscanf(hexs + i * 2, "%02X", (unsigned int*)(s + i));
+		#endif
+		#ifdef _WIN32
 		RET = sscanf_s(hexs + i * 2, "%02X", (unsigned int*)(s + i));
+		#endif
 		//if(*(unsigned int*)(s+i) > 255) break;
 		//printfs("sscanf %s\t%d\t[DEBUG]:RET=%d %c %c %c",__FILE__,__LINE__,RET,*(hexs+i),*(hexs+i+1),*(s+i));
 	}
@@ -349,13 +354,13 @@ int cp_file(char *destination_path, char* source_path)
 	int ret = -1;
 
 	FILE *in, *out;//定义两个文件流，分别用于文件的读取和写入int len;  
-	if ((ret = fopen_s(&in, source_path, "r")) != 0)
+	if ((in = fopen(source_path, "r")) != 0)
 	{
 		LOG_INFO("The file %s can not be opened.\n", "student.txt");
 		return -1;
 	}
 
-	if ((ret = fopen_s(&out, destination_path, "r")) != 0)
+	if ((out = fopen(destination_path, "r")) != 0)
 	{
 		LOG_INFO("The file %s can not be opened.\n", "student.txt");
 		return -1;

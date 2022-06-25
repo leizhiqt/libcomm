@@ -3,6 +3,13 @@
 #include "bclog.h"
 #include "conf.h"
 
+#ifdef __linux__
+
+#endif
+#ifdef _WIN32
+
+#endif
+		
 char *cnf_sign = "=";
 int kc;
 char kv[MX_KC][2][LINE_SIZE];
@@ -72,12 +79,24 @@ int conf_read(char *conf_path, char *conf_name, char *cnf_val)
 	char lval[LINE_SIZE];
 
 	FILE *f;
-	int ret = fopen_s(&f, conf_path, "r+");
+	int ret=-1;
+#ifdef __linux__
+	f = fopen(conf_path, "r+");
 	if (f == NULL)
 	{
 		printf("OPEN CONFIG FALID\n");
 		return 0;
 	}
+#endif
+#ifdef _WIN32
+	ret = fopen_s(&f, conf_path, "r+");
+	if (f == NULL)
+	{
+		printf("OPEN CONFIG FALID\n");
+		return 0;
+	}
+#endif
+
 
 	int on_line = 0;
 
@@ -98,13 +117,25 @@ int conf_read(char *conf_path, char *conf_name, char *cnf_val)
 int conf_load(char *conf_path)
 {
 	FILE *f;
-
-	int ret = fopen_s(&f, conf_path, "r+");
+int ret = -1;
+#ifdef __linux__
+	f = fopen(conf_path, "r+");
 	if (f == NULL)
 	{
 		printf("OPEN CONFIG FALID\n");
 		return 0;
 	}
+#endif
+#ifdef _WIN32
+	ret = fopen_s(&f, conf_path, "r+");
+	if (f == NULL)
+	{
+		printf("OPEN CONFIG FALID\n");
+		return 0;
+	}
+#endif
+
+
 
 	kc = 0;
 	char linebuf[LINE_SIZE];
@@ -144,13 +175,23 @@ int conf_update(char *conf_path, char *conf_name, char *conf_value)
 	char lread[LINE_SIZE];
 
 	FILE *f;
-	int ret = fopen_s(&f, conf_path, "r+");
+int ret=-1;
+#ifdef __linux__
+	f = fopen(conf_path, "r+");
 	if (f == NULL)
 	{
 		printf("OPEN CONFIG FALID\n");
 		return 0;
 	}
-
+#endif
+#ifdef _WIN32
+	ret = fopen_s(&f, conf_path, "r+");
+	if (f == NULL)
+	{
+		printf("OPEN CONFIG FALID\n");
+		return 0;
+	}
+#endif
 	int on_line = 0;
 
 	while (fgets(linebuf, LINE_SIZE, f) != NULL)
@@ -183,40 +224,71 @@ int conf_update(char *conf_path, char *conf_name, char *conf_value)
 	  //printf("%s||%s\n",lkey,conf_name);
 
 		if (!strcmp(lkey, conf_name)) {
+
+#ifdef __linux__
+			strcat(cnf_buf, conf_name);
+			strcat(cnf_buf, "=");
+			strcat(cnf_buf, conf_value);
+			strcat(cnf_buf, "\n");
+#endif
+#ifdef _WIN32
 			strcat_s(cnf_buf, strlen(conf_name), conf_name);
 			strcat_s(cnf_buf, 1, "=");
 			strcat_s(cnf_buf, strlen(conf_value), conf_value);
 			strcat_s(cnf_buf, 1, "\n");
-
+#endif
 			on_line = 1;
 			//break;
 		}
 		else {
+		#ifdef _WIN32
 			strcat_s(cnf_buf, strlen(lread), lread);
 			strcat_s(cnf_buf, 1, "\n");
+		#endif
+		#ifdef _WIN32
+			strcat(cnf_buf, lread);
+			strcat(cnf_buf, "\n");	
+		#endif
 		}
 	}
 	remove(conf_path);
 	fclose(f);
 
 	if (!on_line) {
-		strcat_s(cnf_buf, strlen(conf_name), conf_name);
-		strcat_s(cnf_buf, 1, "=");
-		strcat_s(cnf_buf, strlen(conf_value), conf_value);
-		strcat_s(cnf_buf, 1, "\n");
+#ifdef __linux__
+			strcat(cnf_buf, conf_name);
+			strcat(cnf_buf, "=");
+			strcat(cnf_buf, conf_value);
+			strcat(cnf_buf, "\n");
+#endif
+#ifdef _WIN32
+			strcat_s(cnf_buf, strlen(conf_name), conf_name);
+			strcat_s(cnf_buf, 1, "=");
+			strcat_s(cnf_buf, strlen(conf_value), conf_value);
+			strcat_s(cnf_buf, 1, "\n");
+#endif
 
 		on_line = 1;
 	}
 
 	FILE *fp;
-	ret = fopen_s(&fp, conf_path, "w+");
-	if (fp == NULL)
+#ifdef __linux__
+	fp = fopen(conf_path, "w+");
+	if (f == NULL)
 	{
 		printf("OPEN CONFIG FALID\n");
 		return 2;
 	}
 	//fseek(fp,0,SEEK_SET);
-
+#endif
+#ifdef _WIN32
+	ret = fopen_s(&fp, conf_path, "w+");
+	if (f == NULL)
+	{
+		printf("OPEN CONFIG FALID\n");
+		return 2;
+	}
+#endif
 	//printf("cnf_buf>%s\n",cnf_buf);
 	fputs(cnf_buf, fp);
 	fclose(fp);
@@ -241,12 +313,24 @@ int conf_delete(char *conf_path, char *conf_name)
 	char lread[LINE_SIZE];
 
 	FILE *f;
-	int ret = fopen_s(&f, conf_path, "r+");
+	int ret = -1;
+#ifdef __linux__
+	f = fopen(conf_path, "r+");
 	if (f == NULL)
 	{
 		printf("OPEN CONFIG FALID\n");
 		return 0;
 	}
+
+#endif
+#ifdef _WIN32
+	ret = fopen_s(&f, conf_path, "r+");
+	if (f == NULL)
+	{
+		printf("OPEN CONFIG FALID\n");
+		return 0;
+	}
+#endif
 
 	int on_line = 0;
 
@@ -286,13 +370,23 @@ int conf_delete(char *conf_path, char *conf_name)
 	fclose(f);
 
 	FILE *fp;
-	ret = fopen_s(&fp, conf_path, "w+");
-	if (fp == NULL)
+#ifdef __linux__
+	fp = fopen(conf_path, "w+");
+	if (f == NULL)
 	{
 		printf("OPEN CONFIG FALID\n");
 		return 2;
 	}
 	//fseek(fp,0,SEEK_SET);
+#endif
+#ifdef _WIN32
+	ret = fopen_s(&fp, conf_path, "w+");
+	if (f == NULL)
+	{
+		printf("OPEN CONFIG FALID\n");
+		return 2;
+	}
+#endif
 
 	//printf("cnf_buf>%s\n",cnf_buf);
 	fputs(cnf_buf, fp);
