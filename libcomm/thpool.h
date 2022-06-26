@@ -79,19 +79,27 @@ typedef struct _thpool {
 #endif
 }thpool_t;
 
-int thpool_init(thpool_t* thpool, const int max_threads, const int min_threads);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+	int thpool_init(thpool_t* thpool, const int max_threads, const int min_threads);
 
 
 #ifdef __ANDROID__
 #elif __linux__
-pthread_t thpool_add_work(thpool_t* thpool, void* (*function)(void*), void* arg);
+	pthread_t thpool_add_work(thpool_t* thpool, void* (*function)(void*), void* arg);
 
 
 #elif _WIN32
-HANDLE thpool_add_work(thpool_t* thpool, void* (*function)(void*), void* arg);
+	HANDLE thpool_add_work(thpool_t* thpool, void* (*function)(void*), void* arg);
 
 #endif
 
-void thpool_destroy(thpool_t* thpool);
+	void thpool_destroy(thpool_t* thpool);
+#ifdef _cplusplus
+}
+#endif
 
 #endif

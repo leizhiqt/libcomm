@@ -1,9 +1,9 @@
-﻿/********************************** 
+﻿/**********************************
  * @author	leizhifesker@gmail.com
  * @date	2017/02/16
  * Last update:	2017/02/16
  * License:	LGPL
- * 
+ *
 **********************************/
 
 #ifndef _LINKLIST_
@@ -12,7 +12,7 @@
 #define byte unsigned char
 
 typedef struct _snode snode_t;
-typedef struct _snode{
+typedef struct _snode {
 	char *value;
 	//int elemSize;
 	//int logicLen;
@@ -25,7 +25,7 @@ typedef struct _snode{
 typedef struct _link_node link_node_t;
 typedef struct _link_list link_list_t;
 
-typedef struct _link_node{
+typedef struct _link_node {
 	unsigned int id;	//ID
 	char *pv;		//保存字符串:任务号/异常信息/保存图像
 
@@ -39,29 +39,34 @@ typedef struct _link_node{
 /**
 	LinkList
 **/
-typedef struct _link_list{
+typedef struct _link_list {
 	link_node_t*	head;		//头指针
 	link_node_t*	last;		//末尾指针
 }link_list_t;
 
-int linklist_init(link_list_t **plink);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-int snode_cmp(snode_t *s,snode_t *d);
+	int linklist_init(link_list_t **plink);
 
-//入栈
-int linklist_push(link_list_t **plink,char *pv);
-int linklist_push_msg(link_list_t **plink,char *pv,char *msg);
-int linklist_push_img(link_list_t **plink,char *pv,char *img);
+	int snode_cmp(snode_t *s, snode_t *d);
 
-//出栈
-int linklist_pop(link_list_t **plink,char *pv);
-int linklist_pop_msg(link_list_t **plink,char *pv,char *msg);
-int linklist_pop_img(link_list_t **plink,char *pv,char *img);
+	//入栈
+	int linklist_push(link_list_t **plink, char *pv);
+	int linklist_push_msg(link_list_t **plink, char *pv, char *msg);
 
-int linklist_exist(link_list_t **plink,char *pv);
+	//出栈
+	int linklist_pop(link_list_t **plink, char *pv);
 
-int linklist_size(link_list_t **plink);
+	int linklist_exist(link_list_t **plink, char *pv);
 
-void linklist_destroy(link_list_t **plink);
+	int linklist_size(link_list_t **plink);
 
- #endif
+	void linklist_destroy(link_list_t **plink);
+#ifdef _cplusplus
+}
+#endif
+
+#endif

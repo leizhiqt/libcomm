@@ -58,14 +58,23 @@ typedef struct _client {
 	char flags;
 }client_t;
 
-int client_connect(client_t* client);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-int client_send(client_t* client);
+	int client_connect(client_t* client);
 
-int client_recv(client_t* client);
+	int client_send(client_t* client);
 
-void client_close(client_t* client);
+	int client_recv(client_t* client);
 
-//
-int short_send(client_t* client);
+	void client_close(client_t* client);
+
+	//
+	int short_send(client_t* client);
+#ifdef _cplusplus
+}
+#endif
+
 #endif
