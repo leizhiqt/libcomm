@@ -13,7 +13,6 @@ int log_release();
 
 void printf_hex(char const *p, int size);
 void printbytes(const char * bytes, const int n);
-
 //#ifdef _cplusplus
 //}
 //#endif
