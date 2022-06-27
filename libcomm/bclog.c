@@ -27,6 +27,8 @@ static char _log_file[128];
 
 FILE *log_fp = NULL;
 
+void nop() {}
+
 void log_sk(const int sk)
 {
 	_sk = sk;
