@@ -54,15 +54,39 @@ int log_initialize(const char *log_file, int level)
 #endif
 
 #ifdef _WIN32
-	if (log_fp != NULL && (ret = _access(_log_file, 2)) != -1) {
-		printf("File ACCESS.C has write permission\n");
-		return 1;
+	if (log_file != NULL)
+	{
+		printf("log_fp save:%s\n", log_file);
+		snprintf(_log_file, sizeof(_log_file), "%s", log_file);
+		ofstream file_writer(_log_file, ios_base::out);
+		
+		if (log_fp == NULL)
+		{
+			log_fp = fopen(_log_file, "a+");
+			//log_fp = fopen(log_file, "w+");
+		}
+		return;
 	}
 
-	if ((ret = fopen_s(&log_fp, _log_file, "w+")) != 0)
+	if (log_file == NULL)
 	{
-		printf("The file %s can not be opened.\n", "student.txt");
-		return -1;
+		string running_path = _pgmptr;
+		string current_path;
+		size_t found = running_path.find_last_of('.exe');
+		if (found != std::string::npos)
+		{
+			current_path = running_path.substr(0, found - 3);
+		}
+		string save_log_path = current_path + ".txt";
+		
+		snprintf(_log_file, sizeof(_log_file), "%s", save_log_path.c_str());
+		ofstream file_writer(_log_file, ios_base::out);
+		printf("log_fp save:%s\n", _log_file);
+		if (log_fp == NULL)
+		{
+			log_fp = fopen(_log_file, "a+");
+		}
+		return;
 	}
 #endif
 
