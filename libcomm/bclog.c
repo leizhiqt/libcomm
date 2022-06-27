@@ -15,6 +15,7 @@
 #include "io.h"
 #endif
 
+#include <fstream>
 #include "bctime.h"
 #include "bclog.h"
 
