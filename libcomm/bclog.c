@@ -13,6 +13,9 @@
 #include "stdio.h"
 #include "windows.h"
 #include "io.h"
+
+HANDLE g_hSemaphore = NULL;
+
 #endif
 
 #include <fstream>
@@ -57,6 +60,9 @@ int log_initialize(const char *log_file, int level)
 #endif
 
 #ifdef _WIN32
+	if(g_hSemaphore==NULL)
+	g_hSemaphore = CreateSemaphore(NULL, 1, 1, NULL);
+	
 	if (log_file != NULL)
 	{
 		printf("log_fp save:%s\n", log_file);
@@ -128,6 +134,12 @@ int log_release()
 
 void log_printfs(char const *files, int line, char const *fmt, ...)
 {
+#ifdef _WIN32
+	if (g_hSemaphore == NULL)
+		g_hSemaphore = CreateSemaphore(NULL, 1, 1, NULL);
+
+	WaitForSingleObject(g_hSemaphore, INFINITE);      //信号量值-1
+#endif
 	int RET = -1;
 
 	char buf[4096] = "\0";
@@ -153,6 +165,9 @@ void log_printfs(char const *files, int line, char const *fmt, ...)
 		fprintf(log_fp, "%s", logbuf);
 		fflush(log_fp);
 	}
+#ifdef _WIN32
+	ReleaseSemaphore(g_hSemaphore, 1, NULL);          //信号量值+1
+#endif
 }
 
 void printf_hex(char const *p, int size)
