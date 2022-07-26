@@ -13,24 +13,29 @@
 #include <time.h>
 #endif
 
-//按照不同的方式格式化当前times
-void t_formats(char *nowS, size_t s_len, const char*fmats);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-//获取当前时间
-void t_ftime(char *tsname);
-//获取当前日期
-void t_fdate(char *s);
-//获取当前时间
-void t_stime(char *tsname);
+	//按照不同的方式格式化当前times
+	void t_formats(char *nowS, size_t s_len, const char*fmats);
 
-//执行时间
-int disTime();
+	//获取当前时间
+	void t_ftime(char *tsname);
+	//获取当前日期
+	void t_fdate(char *s);
+	//获取当前时间
+	void t_stime(char *tsname);
 
-int ntpdate(const char *f_ip);
+	//执行时间
+	int disTime();
 
-void sys_ms(char *ms);
+	int ntpdate(const char *f_ip);
 
-void getNowS(char *nowS, size_t size);
+	void sys_ms(char *ms);
+
+	void getNowS(char *nowS, size_t size);
 
 
 
@@ -43,10 +48,10 @@ void getNowS(char *nowS, size_t size);
 #ifdef _WIN32
 
 #ifdef __CPUTIME_TEST__
-clock_t start, stop;
-//clock_t是clock()函数返回的变量类型 
-double duration;
-//记录被测函数运行时间，以秒为单位
+	clock_t start, stop;
+	//clock_t是clock()函数返回的变量类型 
+	double duration;
+	//记录被测函数运行时间，以秒为单位
 #define CPUTIME_TEST_BEGIN start = clock();
 //开始计时 
 //把被测函数加在这里
@@ -54,11 +59,12 @@ double duration;
 	stop = clock(); \
 duration = ((double)(stop - start)) / CLK_TCK; \
 LOG_INFO("消耗CPU:%d", duration);
+#endif
 
 #endif
 
-
-
+#ifdef _cplusplus
+}
 #endif
 
 #endif

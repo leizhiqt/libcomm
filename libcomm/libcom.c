@@ -69,11 +69,11 @@ void th_task(void *argc)
 		LOG_INFO("th_task %d", task_id);
 		//
 #ifdef __linux__
-	usleep(50);
+		usleep(50);
 #endif
 
 #ifdef _WIN32
-	Sleep(1000);
+		Sleep(1000);
 #endif
 	}
 	LOG_INFO("th_task end");
@@ -83,7 +83,7 @@ void th_task(void *argc)
 
 int main()
 {
-	log_initialize("libcom.txt", 1);
+	log_initialize("logcomm.txt", 1);
 	LOG_INFO("abcd");
 	LOG_INFO("abcd");
 	LOG_INFO("abcd");
@@ -110,12 +110,12 @@ int main()
 		{
 			LOG_INFO("thpool full");
 		}
-		#ifdef __linux__
-	usleep(50);
+#ifdef __linux__
+		usleep(50);
 #endif
 
 #ifdef _WIN32
-	Sleep(1000);
+		Sleep(1000);
 #endif
 	}
 
@@ -124,7 +124,7 @@ int main()
 	thpool_destroy(&thpool);
 	LOG_INFO("thpool_destroy\n");
 
-	log_release();
+	//log_release();
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单

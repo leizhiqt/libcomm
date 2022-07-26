@@ -12,10 +12,11 @@
 #include <sys/types.h>
 #include "signal.h"
 #include "bclog.h"
-#include "spawn.h"
+
 
 #ifdef __linux__
 #include "unistd.h"
+#include "spawn.h"
 
 static	sigset_t signal_mask;
 #endif
@@ -131,64 +132,64 @@ again:
 #endif
 			//LOG_INFO("thpool_add_work exits:%ld (0x%x) k=%d lock:%d",p->thread,p->thread,k,p->lock);
 			return p->thread;
-		}
+	}
 		//LOG_INFO("k=%d lock:%d",k,!(p->lock));
 		k++;
-	} while ((p = p->next) != NULL);
+} while ((p = p->next) != NULL);
 
-	//printfs("%s\t%d\t[DEBUG]:thpool_add_work for k=%d max_threads=%d",__FILE__,__LINE__,k,thpool->max_threads);
-	if (k == thpool->max_threads)
+//printfs("%s\t%d\t[DEBUG]:thpool_add_work for k=%d max_threads=%d",__FILE__,__LINE__,k,thpool->max_threads);
+if (k == thpool->max_threads)
+{
+	if (busy == 10)
 	{
-		if (busy == 10)
-		{
-			LOG_INFO("thpool_add_work is full max_threads:%ld k=%d", thpool->max_threads, k);
-			return -1;
-		}
-		LOG_INFO("thpool_add_work loop add:busy=%d", busy);
-
-		busy++;
-		p = thpool->head;
-
-#ifdef __ANDROID__
-#elif __linux__
-		sleep(1);
-#elif _WIN32
-		Sleep(1000);
-#endif
-		goto again;
+		LOG_INFO("thpool_add_work is full max_threads:%ld k=%d", thpool->max_threads, k);
+		return -1;
 	}
+	LOG_INFO("thpool_add_work loop add:busy=%d", busy);
 
-	//新分配空间
-	//LOG_INFO("thpool_add_work for NEW");
-	p = (th_node_t*)malloc(sizeof(th_node_t));
-	p->function = function;
-	p->arg = arg;
-	p->next = NULL;
-	p->prev = NULL;
+	busy++;
+	p = thpool->head;
 
 #ifdef __ANDROID__
 #elif __linux__
-	pthread_mutex_init(&(p->mutex), NULL);
+	sleep(1);
 #elif _WIN32
-	InitializeCriticalSection(&(p->mutex));
+	Sleep(1000);
 #endif
-	//add to last node
-	thpool->last->next = p;
-	p->prev = thpool->last;
-	thpool->last = p;
-	p->lock = 1;
+	goto again;
+}
 
-	th_nosing();
+//新分配空间
+//LOG_INFO("thpool_add_work for NEW");
+p = (th_node_t*)malloc(sizeof(th_node_t));
+p->function = function;
+p->arg = arg;
+p->next = NULL;
+p->prev = NULL;
 
 #ifdef __ANDROID__
 #elif __linux__
-	pthread_create(&(p->thread), NULL, (void *)thpool_thread_do, (void*)p);
-	//usleep(50);
+pthread_mutex_init(&(p->mutex), NULL);
 #elif _WIN32
-	p->thread = _beginthreadex(NULL, 0, (void *)thpool_thread_do, (void*)p, 0, 0);
+InitializeCriticalSection(&(p->mutex));
 #endif
-	LOG_INFO("thpool_add_work new:%u (0x%x)", p->thread, p->thread);
-	return p->thread;
+//add to last node
+thpool->last->next = p;
+p->prev = thpool->last;
+thpool->last = p;
+p->lock = 1;
+
+th_nosing();
+
+#ifdef __ANDROID__
+#elif __linux__
+pthread_create(&(p->thread), NULL, (void *)thpool_thread_do, (void*)p);
+//usleep(50);
+#elif _WIN32
+p->thread = _beginthreadex(NULL, 0, (void *)thpool_thread_do, (void*)p, 0, 0);
+#endif
+LOG_INFO("thpool_add_work new:%u (0x%x)", p->thread, p->thread);
+return p->thread;
 }
 
 int thpool_init(thpool_t* thpool, const int max_threads, const int min_threads)

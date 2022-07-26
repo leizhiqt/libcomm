@@ -9,7 +9,7 @@
 #ifdef _WIN32
 
 #endif
-		
+
 char *cnf_sign = "=";
 int kc;
 char kv[MX_KC][2][LINE_SIZE];
@@ -79,7 +79,7 @@ int conf_read(char *conf_path, char *conf_name, char *cnf_val)
 	char lval[LINE_SIZE];
 
 	FILE *f;
-	int ret=-1;
+	int ret = -1;
 #ifdef __linux__
 	f = fopen(conf_path, "r+");
 	if (f == NULL)
@@ -117,7 +117,7 @@ int conf_read(char *conf_path, char *conf_name, char *cnf_val)
 int conf_load(char *conf_path)
 {
 	FILE *f;
-int ret = -1;
+	int ret = -1;
 #ifdef __linux__
 	f = fopen(conf_path, "r+");
 	if (f == NULL)
@@ -175,7 +175,7 @@ int conf_update(char *conf_path, char *conf_name, char *conf_value)
 	char lread[LINE_SIZE];
 
 	FILE *f;
-int ret=-1;
+	int ret = -1;
 #ifdef __linux__
 	f = fopen(conf_path, "r+");
 	if (f == NULL)
@@ -241,14 +241,14 @@ int ret=-1;
 			//break;
 		}
 		else {
-		#ifdef _WIN32
+#ifdef _WIN32
 			strcat_s(cnf_buf, strlen(lread), lread);
 			strcat_s(cnf_buf, 1, "\n");
-		#endif
-		#ifdef _WIN32
+#endif
+#ifdef __linux__
 			strcat(cnf_buf, lread);
-			strcat(cnf_buf, "\n");	
-		#endif
+			strcat(cnf_buf, "\n");
+#endif
 		}
 	}
 	remove(conf_path);
@@ -256,16 +256,16 @@ int ret=-1;
 
 	if (!on_line) {
 #ifdef __linux__
-			strcat(cnf_buf, conf_name);
-			strcat(cnf_buf, "=");
-			strcat(cnf_buf, conf_value);
-			strcat(cnf_buf, "\n");
+		strcat(cnf_buf, conf_name);
+		strcat(cnf_buf, "=");
+		strcat(cnf_buf, conf_value);
+		strcat(cnf_buf, "\n");
 #endif
 #ifdef _WIN32
-			strcat_s(cnf_buf, strlen(conf_name), conf_name);
-			strcat_s(cnf_buf, 1, "=");
-			strcat_s(cnf_buf, strlen(conf_value), conf_value);
-			strcat_s(cnf_buf, 1, "\n");
+		strcat_s(cnf_buf, strlen(conf_name), conf_name);
+		strcat_s(cnf_buf, 1, "=");
+		strcat_s(cnf_buf, strlen(conf_value), conf_value);
+		strcat_s(cnf_buf, 1, "\n");
 #endif
 
 		on_line = 1;
