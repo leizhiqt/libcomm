@@ -1,0 +1,21 @@
+touch Makefile.am
+autoscan
+vi configure.scan
+aclocal
+autoheader
+touch README NEWS AUTHORS ChangeLog
+automake --add-missing
+autoconf
+./configure
+
+#pkg-config --cflags --libs gtk+-2.0
+#pkg-config --cflags --libs opencv
+
+#Socket编程模式
+1.多进程模式 优势:长连接
+2.多线程模式 优势:短连接
+3.select NIO模式+线程池
+4.epoll NIO模式+线程池 优势:高并发
+
+gcc -g a.c
+mtrace ./module/server server-trace.log
