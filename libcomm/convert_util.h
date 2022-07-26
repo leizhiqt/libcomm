@@ -3,8 +3,6 @@
 
 #include "dtype.h"
 
-#define GET_BIT(x,bit) ((x&(1<<bit))>>bit) //获取bit位
-
 #ifdef __cplusplus /* 如果采用了C++，如下代码使用C编译器 */
      extern  "C"  {  /* 如果没有采用C++，顺序预编译 */
 #endif

@@ -26,6 +26,8 @@ typedef union _UStuff32_t
 #define true	1
 #define false	0
 
+#define GET_BIT(x,bit) ((x&(1<<bit))>>bit) //获取bit位
+
 #define hl_to_int16(l,h) ((uchar_8)h << 8 | (uchar_8)l)
 
 #define hl_to_int32(l0,l1,h0,h1) ((uchar_8)h1 << 24 |(uchar_8)h0 << 16|(uchar_8)l1 << 8| (uchar_8)l0)
