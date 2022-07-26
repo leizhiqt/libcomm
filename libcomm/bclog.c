@@ -13,12 +13,13 @@
 #include "stdio.h"
 #include "windows.h"
 #include "io.h"
+#include <fstream>
 
 HANDLE g_hSemaphore = NULL;
 
 #endif
 
-#include <fstream>
+
 #include "bctime.h"
 #include "bclog.h"
 
