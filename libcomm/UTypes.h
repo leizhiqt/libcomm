@@ -1,30 +1,19 @@
-﻿#ifndef _DTYPE_H_
-#define _DTYPE_H_
+﻿#ifndef UTYPES_H
+#define UTYPES_H
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+//#pragma pack(4)
 
 typedef unsigned char  uchar_8;
-
-typedef unsigned short uint16_t;
 typedef unsigned int   uint32_t;
+typedef unsigned short uint16_t;
+typedef float          float32_t;
 
-typedef float                  float32_t;
-typedef unsigned long          ulong_32;
-typedef unsigned long long     ullong_64;
-
-typedef union _UStuff32_t
+union UStuff32_t
 {
   float    va_float;
   int      va_int;
   uchar_8  ascii[4];
-}UStuff32_t;
-
-#define boolean uint16_t
-#define true	1
-#define false	0
+};
 
 #define hl_to_int16(l,h) ((uchar_8)h << 8 | (uchar_8)l)
 
@@ -34,8 +23,4 @@ typedef union _UStuff32_t
 
 //#define bx_to_int32t(bx) ((uchar_8)(bx)[0] << 24 |(uchar_8)(bx)[1] << 16|(uchar_8)(bx)[2] << 8| (uchar_8)(bx)[3])
 
-#ifdef _cplusplus
-}
-#endif
-
-#endif
+#endif // UTYPES_H

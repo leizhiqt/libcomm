@@ -19,7 +19,7 @@ LIBS=-lpthread
 #noinst_LIBRARIES	只编译不安装
 #lib_LIBRARIES		编译&安装
 
-COMM_SRC=bclog.c  bctime.c  conf.c  csocket.c  linklist.c  sfline.c  taskdata.c  thpool.c  websocket.c
+COMM_SRC=bclog.c  bctime.c  conf.c  csocket.c  linklist.c  sfline.c  taskdata.c  thpool.c  websocket.c convert_util.c
 
 lib_LIBRARIES=libmauto.a
 libmauto_a_SOURCES=$(COMM_SRC)
