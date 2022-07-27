@@ -1,0 +1,6 @@
+autoscan: warning: missing AC_TYPE_UINT16_T wanted by: 
+	libcomm/dtype.h:11
+	libcomm/UTypes.h:8
+autoscan: warning: missing AC_TYPE_UINT32_T wanted by: 
+	libcomm/dtype.h:12
+	libcomm/UTypes.h:7
