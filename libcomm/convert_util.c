@@ -149,6 +149,7 @@ int binary_to_hexs(unsigned char *in, int len, char *out) {
 void utf8ToGbk(char *utf8String, char *gbkString)
 {
 #ifdef _WIN32
+   /*
     wchar_t *unicodeStr = NULL;
     int nRetLen = 0;
 
@@ -166,6 +167,7 @@ void utf8ToGbk(char *utf8String, char *gbkString)
 
     //unicode编码转换成gbk编码
     free(unicodeStr);
+    */
 #endif
 }
 

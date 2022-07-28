@@ -15,7 +15,8 @@ extern "C"
 	void printbytes(const char * bytes, const int n);
 	
 	void nop();
-#ifdef _cplusplus
+
+#ifdef __cplusplus
 }
 #endif
 

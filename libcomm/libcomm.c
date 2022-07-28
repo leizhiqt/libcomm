@@ -21,14 +21,10 @@
 #elif _WIN32
 #define WIN32_LEAN_AND_MEAN // 排除一些不太常用的 API, 加速生成过程
 #include "Windows.h"
-//#include "process.h"
-
 #endif
 
-//static uint forever;
-
-
-
+extern void udp_client_th();
+extern void udp_server_th();
 void *console()
 {
 	char sendBuf[1024];
@@ -83,6 +79,13 @@ void th_task(void *argc)
 
 int main()
 {
+    for(int i=0;i<6;i++){
+        udp_client_th();
+    }
+
+//    udp_server_th();
+
+    /*
 	log_initialize("logcomm.txt", 1);
 	LOG_INFO("abcd");
 	LOG_INFO("abcd");
@@ -121,8 +124,16 @@ int main()
 
 	LOG_INFO("start finsh\n");
 
+
+
 	thpool_destroy(&thpool);
 	LOG_INFO("thpool_destroy\n");
+
+
+*/
+    while (1) {
+        Sleep(5000);
+    }
 
 	//log_release();
 }
