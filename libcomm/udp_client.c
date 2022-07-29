@@ -13,6 +13,8 @@
 
 int udp_client()
 {
+    SetThreadAffinityMask(GetCurrentThread(),0x02);
+
     WSADATA wsaData;
     SOCKET sClient;
 

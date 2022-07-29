@@ -79,11 +79,13 @@ void th_task(void *argc)
 
 int main()
 {
-    for(int i=0;i<6;i++){
-        udp_client_th();
-    }
+//    for(int i=0;i<6;i++){
+//        udp_client_th();
+//    }
 
-//    udp_server_th();
+//    udp_client_th();
+
+    udp_server_th();
 
     /*
 	log_initialize("logcomm.txt", 1);

@@ -9,6 +9,8 @@
 
 int udp_server() {
 
+    SetThreadAffinityMask(GetCurrentThread(),0x03);
+
 	WSADATA wsaData;
 	SOCKET sSocket;
 
@@ -57,6 +59,9 @@ int udp_server() {
     // 接收缓冲区
     int nRecvBuf=1024*1024*200;//设置为32K
     setsockopt(sSocket,SOL_SOCKET,SO_RCVBUF,(const char*)&nRecvBuf,sizeof(int));
+
+//    unsigned long ul=1;
+//    ioctlsocket(sSocket,FIONBIO,(unsigned long*)&ul);
 
 	iLen = sizeof(cli);
 	//初始化接收缓冲区
