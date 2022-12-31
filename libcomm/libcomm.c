@@ -85,7 +85,7 @@ int main()
 
 //    udp_client_th();
 
-    udp_server_th();
+//    udp_server_th();
 
     /*
 	log_initialize("logcomm.txt", 1);
@@ -134,7 +134,8 @@ int main()
 
 */
     while (1) {
-        Sleep(5000);
+        //Sleep(5000);
+        sleep(5);
     }
 
 	//log_release();

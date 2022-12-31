@@ -34,10 +34,17 @@ libmauto_so_SOURCES=$(COMM_SRC)
 libmauto_so_CFLAGS=-std=gnu99 -Wall -fPIC -shared
 #libmauto_so_LDFLAGS=
 
-
-noinst_PROGRAMS = example
-example_SOURCES = libcom.c  $(COMM_SRC)
-example_CFLAGS= -D_POSIX_C_SOURCE=1 -std=c17 -Wall -fPIC -lpthread 
+#libcomm
+noinst_PROGRAMS = libcomm
+libcomm_SOURCES=libcomm.c 
+libcomm_CFLAGS=-I$(top_srcdir)/libcommons -I/usr/include
+libcomm_LDFLAGS= -static
+#libcomm_LDFLAGS= -static -static-libgcc
+#libcomm_LDFLAGS=-L$(top_srcdir)/libcommons
+#libcom_LDFLAGS=-static -std=c99 -L$(top_srcdir)/libcommons
+#libcomm_LDADD=$(top_srcdir)/libcommons/libmauto.a -lmauto
+libcomm_LDADD=libmauto.a
+#libcomm_LDADD=-lmauto
 
 #安装头文件
 include_HEADERS=*.h
